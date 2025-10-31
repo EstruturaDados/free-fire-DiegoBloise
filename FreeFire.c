@@ -169,3 +169,22 @@ void inserirItem() {
     printf("Item inserido com sucesso!\n");
 }
 
+
+
+void listarItens() {
+    if (totalItens == 0) {
+        printf("Mochila vazia!\n");
+        return;
+    }
+
+    printf("\n===== ITENS NA MOCHILA =====\n");
+    printf("%-3s | %-15s | %-10s | %-5s | %-10s\n", "ID", "Nome", "Tipo", "Qtd", "Prioridade");
+    printf("-------------------------------------------------------\n");
+
+    for (int i = 0; i < totalItens; i++) {
+        printf("%-3d | %-15s | %-10s | %-5d | %-10d\n",
+               mochila[i].id, mochila[i].nome, mochila[i].tipo,
+               mochila[i].quantidade, mochila[i].prioridade);
+    }
+    printf("-------------------------------------------------------\n");
+}
