@@ -32,32 +32,32 @@ int totalItens = 0;
 
 // Limpar tela:
 // Simula a limpeza da tela imprimindo várias linhas em branco.
-limparTela();
+void limparTela();
 
 // Exibir Menu:
 // Apresenta o menu principal ao jogador, com destaque para status da ordenação.
-exibirMenu();
+void exibirMenu();
 
 // Inserir Item:
 // Adiciona um novo componente à mochila se houver espaço.
 // Solicita nome, tipo, quantidade e prioridade.
 // Após inserir, marca a mochila como "não ordenada por nome".
-inserirItem();
+void inserirItem();
 
 // Remover Item:
 // Permite remover um componente da mochila pelo nome.
 // Se encontrado, reorganiza o vetor para preencher a lacuna.
-removerItem();
+void removerItem();
 
 // Listar Itens:
 // Exibe uma tabela formatada com todos os componentes presentes na mochila.
-listarItens();
+void listarItens();
 
 // Menu De Ordenacao:
 // Permite ao jogador escolher como deseja ordenar os itens.
 // Utiliza a função insertionSort() com o critério selecionado.
 // Exibe a quantidade de comparações feitas (análise de desempenho).
-menuDeOrdenacao();
+void menuDeOrdenacao();
 
 // Insertion Sort:
 // Implementação do algoritmo de ordenação por inserção.
@@ -65,13 +65,13 @@ menuDeOrdenacao();
 // - Por nome (ordem alfabética)
 // - Por tipo (ordem alfabética)
 // - Por prioridade (da mais alta para a mais baixa)
-insertionSort();
+void insertionSort();
 
 // Busca Binaria Por Nome:
 // Realiza busca binária por nome, desde que a mochila esteja ordenada por nome.
 // Se encontrar, exibe os dados do item buscado.
 // Caso contrário, informa que não encontrou o item.
-buscaBinariaPorNome();
+void buscaBinariaPorNome();
 
 int main() {
     // Menu principal com opções:
@@ -88,19 +88,13 @@ int main() {
     int opcao;
 
     do {
-        printf("\n===== MENU INVENTARIO =====\n");
-        printf("1. Adicionar um item\n");
-        printf("2. Remover um item\n");
-        printf("3. Listar todos os itens\n");
-        printf("4. Ordenar os itens (nome, tipo, prioridade)\n");
-        printf("5. Buscar item por nome\n");
-        printf("0. Sair\n");
-        printf("Escolha uma opcao: ");
+        exibirMenu();
         scanf("%d", &opcao);
+        limparTela();
 
         switch (opcao) {
             case 1:
-                insertionSort();
+                inserirItem();
                 break;
             case 2:
                 removerItem();
@@ -109,15 +103,69 @@ int main() {
                 listarItens();
                 break;
             case 4:
+                menuDeOrdenacao();
+                break;
+            case 5:
                 buscaBinariaPorNome();
                 break;
             case 0:
-                printf("Saindo...\n");
+                printf("Encerrando programa...\n");
                 break;
             default:
                 printf("Opcao invalida!\n");
         }
+
+        printf("\n");
     } while (opcao != 0);
 
     return 0;
 }
+
+void limparTela() {
+    for (int i = 0; i < 30; i++) printf("\n");
+}
+
+void exibirMenu() {
+    printf("===== MOCHILA DO PLANO DE FUGA =====\n");
+    printf("------------------------------------\n");
+    printf("1. Inserir item\n");
+    printf("2. Remover item\n");
+    printf("3. Listar itens\n");
+    printf("4. Ordenar itens\n");
+    printf("5. Buscar item por nome (busca binaria)\n");
+    printf("0. Sair\n");
+    printf("------------------------------------\n");
+    printf("Escolha uma opcao: ");
+}
+
+void inserirItem() {
+    if (totalItens >= MAX_ITENS) {
+        printf("A mochila esta cheia!\n");
+        return;
+    }
+
+    Item novo;
+    novo.id = totalItens + 1;
+
+    getchar(); // limpar buffer
+    printf("Digite o nome do item: ");
+    fgets(novo.nome, sizeof(novo.nome), stdin);
+    novo.nome[strcspn(novo.nome, "\n")] = '\0';
+
+    printf("Digite o tipo do item: ");
+    fgets(novo.tipo, sizeof(novo.tipo), stdin);
+    novo.tipo[strcspn(novo.tipo, "\n")] = '\0';
+
+    printf("Digite a quantidade: ");
+    scanf("%d", &novo.quantidade);
+
+    printf("Digite a prioridade (1 a 5): ");
+    scanf("%d", &novo.prioridade);
+    if (novo.prioridade < 1) novo.prioridade = 1;
+    if (novo.prioridade > 5) novo.prioridade = 5;
+
+    mochila[totalItens++] = novo;
+
+    printf("Item inserido com sucesso!\n");
+}
+
