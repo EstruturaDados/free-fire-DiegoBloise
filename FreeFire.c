@@ -103,10 +103,10 @@ int main() {
                 listarItens();
                 break;
             case 4:
-                menuDeOrdenacao();
+                //menuDeOrdenacao();
                 break;
             case 5:
-                buscaBinariaPorNome();
+                //buscaBinariaPorNome();
                 break;
             case 0:
                 printf("Encerrando programa...\n");
@@ -169,7 +169,37 @@ void inserirItem() {
     printf("Item inserido com sucesso!\n");
 }
 
+void removerItem() {
+    if (totalItens == 0) {
+        printf("Mochila vazia!\n");
+        return;
+    }
 
+    getchar();
+    char nomeRemover[50];
+    printf("Digite o nome do item a remover: ");
+    fgets(nomeRemover, sizeof(nomeRemover), stdin);
+    nomeRemover[strcspn(nomeRemover, "\n")] = '\0';
+
+    int encontrado = -1;
+    for (int i = 0; i < totalItens; i++) {
+        if (strcmp(mochila[i].nome, nomeRemover) == 0) {
+            encontrado = i;
+            break;
+        }
+    }
+
+    if (encontrado == -1) {
+        printf("Item nao encontrado!\n");
+        return;
+    }
+
+    for (int i = encontrado; i < totalItens - 1; i++) {
+        mochila[i] = mochila[i + 1];
+    }
+    totalItens--;
+    printf("Item removido com sucesso!\n");
+}
 
 void listarItens() {
     if (totalItens == 0) {
